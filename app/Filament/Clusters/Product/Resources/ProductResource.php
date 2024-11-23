@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Filament\Clusters\Resources;
+namespace App\Filament\Clusters\Product\Resources;
 
-use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -16,8 +15,8 @@ use Illuminate\Support\Str;
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
-    protected static ?string $navigationIcon = 'heroicon-o-bolt';
     protected static ?string $cluster = \App\Filament\Clusters\Product::class;
+    protected static ?int $navigationSort = 0;
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     public static function form(Form $form): Form
@@ -54,12 +53,10 @@ class ProductResource extends Resource
                             Forms\Components\TextInput::make('price')
                                 ->label('Price')
                                 ->numeric()
-                                ->required()
                                 ->columnSpan(1),
                             Forms\Components\TextInput::make('stock')
                                 ->label('Stock')
                                 ->numeric()
-                                ->required()
                                 ->columnSpan(1),
                         ]),
                     Forms\Components\Section::make('Permalink')
@@ -93,10 +90,12 @@ class ProductResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -111,9 +110,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => \App\Filament\Clusters\Resources\ProductResource\Pages\ListProducts::route('/'),
-            'create' => \App\Filament\Clusters\Resources\ProductResource\Pages\CreateProduct::route('/create'),
-            'edit' => \App\Filament\Clusters\Resources\ProductResource\Pages\EditProduct::route('/{record}/edit'),
+            'index' => \App\Filament\Clusters\Product\Resources\ProductResource\Pages\ListProducts::route('/'),
+            'create' => \App\Filament\Clusters\Product\Resources\ProductResource\Pages\CreateProduct::route('/create'),
+            'edit' => \App\Filament\Clusters\Product\Resources\ProductResource\Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 }
