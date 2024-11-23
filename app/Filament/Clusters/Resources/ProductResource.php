@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Clusters\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
 class ProductResource extends Resource
@@ -19,6 +18,9 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $cluster = \App\Filament\Clusters\Product::class;
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     public static function form(Form $form): Form
     {
@@ -111,9 +113,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => \App\Filament\Clusters\Resources\ProductResource\Pages\ListProducts::route('/'),
+            'create' => \App\Filament\Clusters\Resources\ProductResource\Pages\CreateProduct::route('/create'),
+            'edit' => \App\Filament\Clusters\Resources\ProductResource\Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 }
